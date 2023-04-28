@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:polres/Tournament.dart';
 import 'app_styles.dart';
 import 'size_config.dart';
 import 'home.dart';
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   List<Widget> pilihanMenu = [
     HomeScreen(),
     Text('menu 2'),
-    Text('menu 3'),
+    Tournament_screen(),
     Text('menu 4'),
   ];
 

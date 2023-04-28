@@ -4,67 +4,6 @@ import 'app_styles.dart';
 import 'size_config.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 
-class Tournament extends StatefulWidget {
-  const Tournament({Key? key}) : super(key: key);
-
-  @override
-  State<Tournament> createState() => _TournamentState();
-}
-
-class _TournamentState extends State<Tournament> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: kLighterWhite,
-        body: const Tournament_screen(),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: kWhite,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 0
-                  ? Icon(Icons.home)
-                  : Icon(Icons.home_outlined),
-              label: ' ',
-            ),
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 1
-                  ? Icon(Icons.article)
-                  : Icon(Icons.article),
-              label: ' ',
-            ),
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 2
-                  ? Icon(Icons.videogame_asset_rounded)
-                  : Icon(Icons.videogame_asset_rounded),
-              label: ' ',
-            ),
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 3
-                  ? Icon(Icons.account_circle)
-                  : Icon(Icons.account_circle),
-              label: ' ',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
-      ),
-    );
-  }
-}
-
 class Tournament_screen extends StatelessWidget {
   const Tournament_screen({Key? key}) : super(key: key);
 
@@ -228,6 +167,12 @@ class Tournament_screen extends StatelessWidget {
                       style: kPoppinsSemiBold.copyWith(
                           fontSize: SizeConfig.blockSizeHorizontal! * 5),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Tournament_detail()));
+                    },
                   ),
                 );
               },
