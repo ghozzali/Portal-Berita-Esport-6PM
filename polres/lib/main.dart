@@ -1,15 +1,17 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:polres/Tournament.dart';
+import 'package:polres/news.dart';
+import 'package:polres/setting.dart';
 import 'app_styles.dart';
 import 'size_config.dart';
 import 'home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
-  runApp(
-    const MyApp(),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -33,9 +35,9 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> pilihanMenu = [
     HomeScreen(),
-    Text('menu 2'),
+    NewsScreen(),
     Tournament_screen(),
-    Text('menu 4'),
+    setting(),
   ];
 
   @override
@@ -53,38 +55,33 @@ class _MyAppState extends State<MyApp> {
             });
           },
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: kWhite,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 0
-                  ? Icon(Icons.home)
-                  : Icon(Icons.home_outlined),
-              label: ' ',
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: _selectedIndex,
+          showElevation: true, // use this to remove appBar's elevation
+          onItemSelected: (index) => setState(() {
+            _selectedIndex = index;
+            controllerPage.animateToPage(index,
+                duration: Duration(milliseconds: 300), curve: Curves.ease);
+          }),
+          items: [
+            BottomNavyBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+              activeColor: Color.fromARGB(255, 5, 28, 46),
             ),
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 1
-                  ? Icon(Icons.article)
-                  : Icon(Icons.article),
-              label: ' ',
-            ),
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 2
-                  ? Icon(Icons.videogame_asset_rounded)
-                  : Icon(Icons.videogame_asset_rounded),
-              label: ' ',
-            ),
-            BottomNavigationBarItem(
-              icon: _selectedIndex == 3
-                  ? Icon(Icons.account_circle)
-                  : Icon(Icons.account_circle),
-              label: ' ',
-            ),
+            BottomNavyBarItem(
+                icon: Icon(Icons.article),
+                title: Text('News'),
+                activeColor: Color.fromARGB(255, 5, 28, 46)),
+            BottomNavyBarItem(
+                icon: Icon(Icons.calendar_month),
+                title: Text('Matches'),
+                activeColor: Color.fromARGB(255, 5, 28, 46)),
+            BottomNavyBarItem(
+                icon: Icon(Icons.settings),
+                title: Text('Settings'),
+                activeColor: Color.fromARGB(255, 5, 28, 46)),
           ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
         ),
       ),
     );

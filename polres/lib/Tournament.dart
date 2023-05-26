@@ -77,108 +77,110 @@ class Tournament_screen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 10,
-        ),
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'CALENDAR',
-                style: kPoppinsBold.copyWith(
-                  fontSize: SizeConfig.blockSizeHorizontal! * 6,
-                ),
-              ),
-              Text(
-                'Event',
-                style: kPoppinsRegular.copyWith(
-                  color: kGrey,
-                  fontSize: SizeConfig.blockSizeHorizontal! * 3,
-                ),
-              )
-            ],
+    return Scaffold(
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 10,
           ),
-          const SizedBox(
-            height: 15,
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 1),
-            child: DatePicker(
-              DateTime.now(),
-              height: 100,
-              width: 80,
-              initialSelectedDate: DateTime.now(),
-              selectionColor: kDarkBlue,
-              selectedTextColor: kLighterWhite,
-              dateTextStyle: kPoppinsMedium,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: 580,
-            child: ListView.builder(
-              itemCount: foto.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  padding: EdgeInsets.all(6),
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  width: 250,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kBorderRadius),
-                    boxShadow: [
-                      BoxShadow(
-                        color: kDarkBlue.withOpacity(0.051),
-                        offset: const Offset(0.0, 3.0),
-                        blurRadius: 24.0,
-                        spreadRadius: 0.0,
-                      ),
-                    ],
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'CALENDAR',
+                  style: kPoppinsBold.copyWith(
+                    fontSize: SizeConfig.blockSizeHorizontal! * 6,
                   ),
-                  child: ListTile(
-                    leading: Column(
-                      children: [
-                        Flexible(
-                          child: Image.network(foto[index]["foto1"],
-                              fit: BoxFit.cover),
-                        ),
-                        SizedBox(height: 5),
-                        Flexible(
-                          child: Image.network(foto[index]["foto2"],
-                              fit: BoxFit.cover),
+                ),
+                Text(
+                  'Matches',
+                  style: kPoppinsRegular.copyWith(
+                    color: kGrey,
+                    fontSize: SizeConfig.blockSizeHorizontal! * 3,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 1),
+              child: DatePicker(
+                DateTime.now(),
+                height: 100,
+                width: 80,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: kDarkBlue,
+                selectedTextColor: kLighterWhite,
+                dateTextStyle: kPoppinsMedium,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 580,
+              child: ListView.builder(
+                itemCount: foto.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    padding: EdgeInsets.all(6),
+                    margin: const EdgeInsets.only(left: 10, right: 10),
+                    width: 250,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                      boxShadow: [
+                        BoxShadow(
+                          color: kDarkBlue.withOpacity(0.051),
+                          offset: const Offset(0.0, 3.0),
+                          blurRadius: 24.0,
+                          spreadRadius: 0.0,
                         ),
                       ],
                     ),
-                    title: Text(
-                      'NAVI',
-                      style: kPoppinsSemiBold.copyWith(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 5),
+                    child: ListTile(
+                      leading: Column(
+                        children: [
+                          Flexible(
+                            child: Image.network(foto[index]["foto1"],
+                                fit: BoxFit.cover),
+                          ),
+                          SizedBox(height: 5),
+                          Flexible(
+                            child: Image.network(foto[index]["foto2"],
+                                fit: BoxFit.cover),
+                          ),
+                        ],
+                      ),
+                      title: Text(
+                        'NAVI',
+                        style: kPoppinsSemiBold.copyWith(
+                            fontSize: SizeConfig.blockSizeHorizontal! * 5),
+                      ),
+                      subtitle: Text(
+                        'Faze',
+                        style: kPoppinsSemiBold.copyWith(
+                            fontSize: SizeConfig.blockSizeHorizontal! * 5),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Tournament_detail()));
+                      },
                     ),
-                    subtitle: Text(
-                      'Faze',
-                      style: kPoppinsSemiBold.copyWith(
-                          fontSize: SizeConfig.blockSizeHorizontal! * 5),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Tournament_detail()));
-                    },
-                  ),
-                );
-              },
-            ),
-          )
-        ],
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
