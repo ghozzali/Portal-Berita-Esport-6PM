@@ -7,6 +7,7 @@ import 'package:polres/news.dart';
 import 'package:polres/setting.dart';
 import 'app_styles.dart';
 import 'size_config.dart';
+import 'login_page.dart';
 import 'home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
     HomeScreen(),
     NewsScreen(),
     Tournament_screen(),
-    setting(),
+    SettingsApp(),
   ];
 
   @override
@@ -67,20 +68,20 @@ class _MyAppState extends State<MyApp> {
             BottomNavyBarItem(
               icon: Icon(Icons.home),
               title: Text('Home'),
-              activeColor: Color.fromARGB(255, 5, 28, 46),
+              activeColor: Color.fromARGB(255, 10, 48, 78),
             ),
             BottomNavyBarItem(
                 icon: Icon(Icons.article),
                 title: Text('News'),
-                activeColor: Color.fromARGB(255, 5, 28, 46)),
+                activeColor: Color.fromARGB(255, 10, 48, 78)),
             BottomNavyBarItem(
                 icon: Icon(Icons.calendar_month),
                 title: Text('Matches'),
-                activeColor: Color.fromARGB(255, 5, 28, 46)),
+                activeColor: Color.fromARGB(255, 10, 48, 78)),
             BottomNavyBarItem(
                 icon: Icon(Icons.settings),
                 title: Text('Settings'),
-                activeColor: Color.fromARGB(255, 5, 28, 46)),
+                activeColor: Color.fromARGB(255, 10, 48, 78)),
           ],
         ),
       ),

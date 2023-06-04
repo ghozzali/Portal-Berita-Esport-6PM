@@ -2,9 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'app_styles.dart';
 import 'size_config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List _get = [];
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  Future _getData() async {
+    try {
+      final response = await http.get(Uri.parse(
+          "https://newsapi.org/v2/top-headlines?country=us&apiKey=5aae54827e234012a40622562bbe190b"));
+      // return jsonDecode(response.body);
+
+      // untuk cek data
+      if (response.statusCode == 200) {
+        print(response.body);
+        final data = jsonDecode(response.body);
+        setState(() {
+          _get = data['articles'];
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,44 +45,33 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.symmetric(
-          horizontal: 30,
+          horizontal: 20,
         ),
         children: [
           Row(
             children: [
-              Container(
-                height: 51,
-                width: 51,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(kBorderRadius),
-                  color: kLightBlue,
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                      'https://png.pngtree.com/png-clipart/20221207/ourmid/pngtree-3d-boy-head-portrait-png-image_6514617.png',
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(
-                width: 16,
+                width: 75,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Welcome !',
-                    style: kPoppinsBold.copyWith(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                    ),
-                  ),
-                  Text(
-                    'Sabtu, 15 April 2023 ',
-                    style: kPoppinsRegular.copyWith(
-                      color: kGrey,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 3,
-                    ),
-                  ),
+                  Text("Portal Berita",
+                      textAlign: TextAlign.center,
+                      style: new TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()
+                            ..shader = LinearGradient(
+                              colors: <Color>[
+                                Colors.pinkAccent,
+                                Colors.deepPurpleAccent,
+                                Colors.red
+                                //add more color here.
+                              ],
+                            ).createShader(
+                                Rect.fromLTWH(0.0, 0.0, 200.0, 100.0))))
                 ],
               )
             ],
@@ -77,12 +98,12 @@ class HomeScreen extends StatelessWidget {
                   child: TextField(
                     style: kPoppinsRegular.copyWith(
                       color: kBlue,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 3,
+                      fontSize: SizeConfig.blockSizeHorizontal! * 4,
                     ),
                     controller: TextEditingController(),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 13,
+                        horizontal: 15,
                       ),
                       hintText: 'Search',
                       border: kBorder,
@@ -121,20 +142,7 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 10,
               shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    right: 38,
-                  ),
-                  child: Text(
-                    '#Dota 2',
-                    style: kPoppinsMedium.copyWith(
-                      color: kGrey,
-                      fontSize: SizeConfig.blockSizeHorizontal! * 3,
-                    ),
-                  ),
-                );
-              },
+              itemBuilder: (context, index) {},
             ),
           ),
           const SizedBox(
@@ -170,10 +178,12 @@ class HomeScreen extends StatelessWidget {
                         height: 164,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(kBorderRadius),
-                          image: const DecorationImage(
+                          image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              'https://cdn.zoomg.ir/2019/9/5fb98039-771f-4f5f-abd8-3ca4e062d8c7.jpg',
+                              _get.length > index
+                                  ? _get[index]['urlToImage']
+                                  : '',
                             ),
                           ),
                         ),
@@ -183,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          'Roster Dota 2 Tim Liquid telah meninggalkan Tim, setelah musim yang sangat sukses di mana mereka finis sebagai runner up di The International 2019. Sekarang mereka akan berjuang sendiri.',
+                          _get.length > index ? _get[index]['title'] : '',
                           style: kPoppinsBold.copyWith(
                             fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                           ),
@@ -276,7 +286,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             height: 400,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: 5,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
                 return Container(
@@ -306,7 +316,9 @@ class HomeScreen extends StatelessWidget {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              'https://assets.skor.id/crop/0x0:0x0/x/photo/2022/10/23/2827248693.jpeg',
+                              _get.length > index
+                                  ? _get[index]['urlToImage']
+                                  : '',
                             ),
                           ),
                         ),
@@ -319,7 +331,7 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Onic Esport Juara MPL Season 10',
+                            _get.length > index ? _get[index]['title'] : '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: kPoppinsSemiBold.copyWith(
